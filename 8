@@ -1,0 +1,33 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+int main() {
+    setlocale(LC_CTYPE, "ukr");
+    const int SIZE = 20;
+    double arr[SIZE];
+    srand(time(0));
+
+    for (int i = 0; i < SIZE; i++) {
+        arr[i] = (rand() % 10001 - 5000) / 100.0;
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    int minIndex = 0, maxIndex = 0;
+    for (int i = 1; i < SIZE; i++) {
+        if (arr[i] < arr[minIndex]) minIndex = i;
+        if (arr[i] > arr[maxIndex]) maxIndex = i;
+    }
+
+    if (minIndex > maxIndex) swap(minIndex, maxIndex);
+
+    double sum = 0;
+    for (int i = minIndex; i <= maxIndex; i++) sum += arr[i];
+
+    cout << "Середнє арифметичне: " << sum / (maxIndex - minIndex + 1) << endl;
+
+    return 0;
+}
