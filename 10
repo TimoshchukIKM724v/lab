@@ -1,0 +1,66 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <string>  // Додано для роботи з рядками
+using namespace std;
+
+struct Student {
+    string lastName;
+    int id;
+    int birthMonth;
+    bool getsScholarship;
+};
+
+struct StudentList {
+    vector<Student> students;
+
+    void addStudent(const Student& s) {
+        students.push_back(s);
+    }
+
+    void printStudents() const {
+        cout << "\nСписок студентів:" << endl;
+        for (const auto& s : students) {
+            cout << "ID: " << s.id << ", Прізвище: " << s.lastName
+                << ", Місяць нар.: " << s.birthMonth
+                << ", Стипендія: " << (s.getsScholarship ? "Так" : "Ні") << endl;
+        }
+    }
+
+    int findMostFrequentMonth() const {
+        map<int, int> monthCount;
+        for (const auto& s : students) {
+            monthCount[s.birthMonth]++;
+        }
+
+        int maxMonth = 1, maxCount = 0;
+        for (map<int, int>::iterator it = monthCount.begin(); it != monthCount.end(); ++it) {
+            if (it->second > maxCount) {
+                maxCount = it->second;
+                maxMonth = it->first;
+            }
+        }
+        return maxMonth;
+    }
+};
+
+int main() {
+    setlocale(LC_CTYPE, "ukr");
+    StudentList studentList;
+    studentList.addStudent({ "Петренко", 1, 3, true });
+    studentList.addStudent({ "Іваненко", 2, 5, false });
+    studentList.addStudent({ "Сидорчук", 3, 3, true });
+    studentList.addStudent({ "Коваленко", 4, 8, false });
+    studentList.addStudent({ "Гринчук", 5, 5, true });
+    studentList.addStudent({ "Ткаченко", 6, 3, false });
+    studentList.addStudent({ "Шевченко", 7, 1, true });
+    studentList.addStudent({ "Мельник", 8, 8, false });
+    studentList.addStudent({ "Олійник", 9, 11, true });
+    studentList.addStudent({ "Федорчук", 10, 5, false });
+
+    studentList.printStudents();
+    int popularMonth = studentList.findMostFrequentMonth();
+    cout << "\nНайбільше студентів народилося в місяці: " << popularMonth << endl;
+
+    return 0;
+}
