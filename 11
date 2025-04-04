@@ -1,0 +1,24 @@
+#include <iostream>
+
+void modifyValues(int* ptrA, int* ptrB) {
+    *ptrA *= 2; 
+    *ptrB /= 2;  
+}
+
+int main() {
+    setlocale(LC_CTYPE, "ukr");
+    int a, b;
+
+    std::cout << "Введіть два цілих числа a і b: ";
+    std::cin >> a >> b;
+
+    int* ptrA = &a;
+    int* ptrB = &b;
+
+    modifyValues(ptrA, ptrB);
+
+    std::cout << "Змінене значення a: " << a << std::endl;
+    std::cout << "Змінене значення b: " << b << std::endl;
+
+    return 0;
+}
