@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+const int ROWS = 4;
+const int COLS = 4;
+
+void fillArray(double arr[ROWS][COLS]) {
+    srand(time(0));
+    for (int i = 0; i < ROWS; i++)
+        for (int j = 0; j < COLS; j++)
+            arr[i][j] = rand() % 100 - 50 + (rand() % 100) / 100.0; 
+}
+
+void printArray(double arr[ROWS][COLS]) {
+    cout << "Масив:\n";
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++)
+            cout << arr[i][j] << "\t";
+        cout << endl;
+    }
+}
+
+void findMinMax(double arr[ROWS][COLS], int& minRow, int& minCol, int& maxRow, int& maxCol) {
+    double minVal = arr[0][0], maxVal = arr[0][0];
+    minRow = maxRow = minCol = maxCol = 0;
+
+    for (int i = 0; i < ROWS; i++)
+        for (int j = 0; j < COLS; j++) {
+            if (arr[i][j] < minVal) {
+                minVal = arr[i][j];
+                minRow = i;
+                minCol = j;
+            }
+            if (arr[i][j] > maxVal) {
+                maxVal = arr[i][j];
+                maxRow = i;
+                maxCol = j;
+            }
+        }
+}
+
+double sumSecondaryDiagonal(double arr[ROWS][COLS]) {
+    double sum = 0;
+    for (int i = 0; i < ROWS; i++)
+        sum += arr[i][COLS - 1 - i];
+    return sum;
+}
+
+int main() {
+    setlocale(LC_CTYPE, "ukr");
+    double arr[ROWS][COLS];
+
+    fillArray(arr);
+    printArray(arr);
+
+    int minRow, minCol, maxRow, maxCol;
+    findMinMax(arr, minRow, minCol, maxRow, maxCol);
+
+    cout << "Мінімальний елемент: " << arr[minRow][minCol] << " на позиції [" << minRow << "][" << minCol << "]\n";
+    cout << "Максимальний елемент: " << arr[maxRow][maxCol] << " на позиції [" << maxRow << "][" << maxCol << "]\n";
+
+    double diagSum = sumSecondaryDiagonal(arr);
+    cout << "Сума елементів побічної діагоналі: " << diagSum << endl;
+
+    return 0;
+}
