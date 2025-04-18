@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+double recursiveTerm(int n) {
+    if (n == 1)
+        return 5.2;
+    else
+        return recursiveTerm(n - 1) + 0.2;
+}
+
+int main() {
+    setlocale(LC_CTYPE, "ukr");
+    int n;
+    cout << "Введіть номер члена ряду (n): ";
+    cin >> n;
+
+    if (n <= 0) {
+        cout << "n повинно бути більше нуля." << endl;
+    }
+    else {
+        double result = recursiveTerm(n);
+        cout << "n-й член ряду: " << result << endl;
+    }
+
+    return 0;
+}
