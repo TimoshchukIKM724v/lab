@@ -1,0 +1,90 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include "windows.h"
+using namespace std;
+
+class House {
+    string address;
+    int floor;
+    int rooms;
+    double area;
+
+public:
+    void set_address(string a) { address = a; }
+    void set_floor(int f) { floor = f; }
+    void set_rooms(int r) { rooms = r; }
+    void set_area(double ar) { area = ar; }
+
+    string get_address() { return address; }
+    int get_floor() { return floor; }
+    int get_rooms() { return rooms; }
+    double get_area() { return area; }
+
+    void show() {
+        cout << "Адреса: " << address
+             << ", Поверх: " << floor
+             << ", Кімнат: " << rooms
+             << ", Площа: " << area << " кв.м" << endl;
+    }
+};
+
+int main() {
+    setlocale(LC_CTYPE, "ukr");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+
+    int n;
+    cout << "Введіть кількість квартир: ";
+    cin >> n;
+
+    vector<House> houses(n);
+    for (int i = 0; i < n; i++) {
+        string addr;
+        int flr, rms;
+        double ar;
+
+        cout << "Квартира #" << i + 1 << endl;
+        cout << "Адреса: ";
+        cin.ignore();
+        getline(cin, addr);
+        houses[i].set_address(addr);
+
+        cout << "Поверх: ";
+        cin >> flr;
+        houses[i].set_floor(flr);
+
+        cout << "Кількість кімнат: ";
+        cin >> rms;
+        houses[i].set_rooms(rms);
+
+        cout << "Площа: ";
+        cin >> ar;
+        houses[i].set_area(ar);
+    }
+
+    int search_rooms, floor_min, floor_max;
+    double min_area;
+
+    cout << "\nа) Введіть кількість кімнат для пошуку: ";
+    cin >> search_rooms;
+    for (auto &h : houses)
+        if (h.get_rooms() == search_rooms)
+            h.show();
+
+    cout << "\nб) Введіть кількість кімнат: ";
+    cin >> search_rooms;
+    cout << "Введіть діапазон поверхів (від і до): ";
+    cin >> floor_min >> floor_max;
+    for (auto &h : houses)
+        if (h.get_rooms() == search_rooms && h.get_floor() >= floor_min && h.get_floor() <= floor_max)
+            h.show();
+
+    cout << "\nв) Введіть мінімальну площу: ";
+    cin >> min_area;
+    for (auto &h : houses)
+        if (h.get_area() > min_area)
+            h.show();
+
+    return 0;
+}
