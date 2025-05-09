@@ -1,0 +1,99 @@
+#include <iostream>
+using namespace std;
+
+class Triangle {
+protected:
+    double x1, y1, x2, y2, x3, y3;
+public:
+    Triangle(double x1 = 0, double y1 = 0, double x2 = 3, double y2 = 0, double x3 = 0, double y3 = 4) {
+        this->x1 = x1;
+        this->y1 = y1;
+        this->x2 = x2;
+        this->y2 = y2;
+        this->x3 = x3;
+        this->y3 = y3;
+    }
+
+    void move(double dx, double dy) {
+        x1 += dx; y1 += dy;
+        x2 += dx; y2 += dy;
+        x3 += dx; y3 += dy;
+        cout << "Трикутник переміщено на (" << dx << ", " << dy << ").\n";
+    }
+
+    void resize(double factor) {
+        if (factor <= 0) {
+            cout << "Помилка: коефіцієнт має бути більше 0.\n";
+            return;
+        }
+        x2 = x1 + (x2 - x1) * factor;
+        y2 = y1 + (y2 - y1) * factor;
+        x3 = x1 + (x3 - x1) * factor;
+        y3 = y1 + (y3 - y1) * factor;
+        cout << "Трикутник змінено з коефіцієнтом " << factor << ".\n";
+    }
+
+    void display() const {
+        cout << "Трикутник: A(" << x1 << ", " << y1 << "), B(" << x2 << ", " << y2 << "), C(" << x3 << ", " << y3 << ")\n";
+    }
+};
+
+class Rectangle : public Triangle {
+private:
+    double width, height;
+public:
+    Rectangle(double x = 0, double y = 0, double w = 5, double h = 3)
+        : Triangle(x, y, x + w, y, x, y + h) {
+        if (w <= 0 || h <= 0) {
+            cout << "Помилка: ширина і висота мають бути більше 0.\n";
+            width = 1; height = 1;
+        }
+        else {
+            width = w;
+            height = h;
+        }
+        x2 = x + width; y2 = y;
+        x3 = x; y3 = y + height;
+    }
+
+    void resizeByValue(double dw, double dh) {
+        if (width + dw <= 0 || height + dh <= 0) {
+            cout << "Помилка: нові розміри мають бути більше 0.\n";
+            return;
+        }
+        width += dw;
+        height += dh;
+        x2 = x1 + width;
+        y3 = y1 + height;
+        cout << "Прямокутник змінено: ширина + " << dw << ", висота + " << dh << ".\n";
+    }
+
+    void display() const {
+        cout << "Прямокутник: A(" << x1 << ", " << y1 << "), B(" << x2 << ", " << y2 << "), C(" << x1 << ", " << y1 + height << "), D(" << x2 << ", " << y1 + height << ")\n";
+    }
+};
+
+int main() {
+    setlocale(LC_CTYPE, "ukr");
+    Triangle triangle;
+    cout << "Початковий трикутник:\n";
+    triangle.display();
+
+    triangle.move(2, 3);
+    triangle.display();
+
+    triangle.resize(2);
+    triangle.display();
+
+    Rectangle rect;
+    cout << "\nПочатковий прямокутник:\n";
+    rect.display();
+
+    rect.move(1, 1);
+    rect.display();
+
+    rect.resizeByValue(2, 1);
+    rect.display();
+
+    return 0;
+}
